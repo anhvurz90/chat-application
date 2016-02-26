@@ -1,8 +1,12 @@
 package org.exoplatform.addons.chat.api;
 
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import org.exoplatform.addons.chat.utils.MessageDigester;
 import org.exoplatform.addons.chat.utils.PropertyManager;
+import org.exoplatform.services.log.ExoLogger;
+import org.exoplatform.services.log.Log;
 import org.exoplatform.services.rest.resource.ResourceContainer;
 import org.exoplatform.services.security.ConversationState;
 
@@ -33,6 +37,8 @@ public class UserRestService implements ResourceContainer {
 
   /* The Constant IF_MODIFIED_SINCE_DATE_FORMAT */
   protected static final String IF_MODIFIED_SINCE_DATE_FORMAT = "EEE, dd MMM yyyy HH:mm:ss z";
+
+  private static final Log LOG = ExoLogger.getLogger(UserRestService.class);
 
   @GET
   @Path("/token/")
@@ -102,6 +108,12 @@ public class UserRestService implements ResourceContainer {
     URL url = null;
     String avartarURL = "/rest/jcr/repository/social/production/soc:providers/soc:";
     avartarURL = (isSpace) ? avartarURL.concat("space") : avartarURL.concat("organization");
+      //workaround:[Social Profile] Wrong path is displayed when username contains a dot (Ref: SOC-5253)
+    try {
+       spaceOrUserId = URLEncoder.encode(spaceOrUserId, "utf-8").replace(".", "%2502");
+    } catch (UnsupportedEncodingException e) {
+       LOG.error("Exception when encoding spaceOrUserId");
+    }
     avartarURL = avartarURL.concat("/soc:").concat(spaceOrUserId).concat("/soc:profile/soc:avatar");
     try {
       url = new URL(serverBase.concat(avartarURL));

@@ -1,8 +1,12 @@
 package org.exoplatform.addons.chat.api;
 
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import org.exoplatform.addons.chat.utils.MessageDigester;
 import org.exoplatform.addons.chat.utils.PropertyManager;
+import org.exoplatform.services.log.ExoLogger;
+import org.exoplatform.services.log.Log;
 import org.exoplatform.services.rest.resource.ResourceContainer;
 import org.exoplatform.services.security.ConversationState;
 
@@ -35,6 +39,8 @@ public class UserRestService implements ResourceContainer
 
   public static final String ANONIM_USER = "__anonim_";
 
+  private static final Log LOG = ExoLogger.getLogger(UserRestService.class);
+
 
   public UserRestService()
   {
@@ -57,6 +63,12 @@ public class UserRestService implements ResourceContainer
 
     // Get avatar
     InputStream in = null;
+      //workaround: [Social Profile] Wrong path is displayed when username contains a dot (Ref: SOC-5253)
+    try {
+      userId = URLEncoder.encode(userId, "utf-8").replace(".", "%2502");
+    } catch (UnsupportedEncodingException e) {
+      LOG.error("Exception when encoding spaceOrUserId");
+    }
     try {
       URL url = new URL(serverBase +
               "/rest/jcr/repository/social/production/soc:providers/soc:organization/soc:" + userId +
