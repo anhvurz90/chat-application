@@ -244,9 +244,10 @@ ChatRoom.prototype.refreshChat = function(forceRefresh, callback) {
       res = res.split("\t").join(" ");
       // handle the response data
       var data = snack.parseJSON(res);
-      if(data.messages.length===thiss.messages.length) {
+      if(data.timestamp===thiss.timestamp) {
         return;//do nothing when the current data size is the same
       }
+      thiss.timestamp = data.timestamp;
       var lastTS = jzGetParam("lastTS"+thiss.username);
       var lastUpdatedTS = jzGetParam("lastUpdatedTS"+thiss.username);
 //      console.log("chatEvent :: lastTS="+lastTS+" :: serverTS="+data.timestamp);
