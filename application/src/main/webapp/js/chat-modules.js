@@ -245,7 +245,7 @@ ChatRoom.prototype.refreshChat = function(forceRefresh, callback) {
       // handle the response data
       var data = snack.parseJSON(res);
       if(data.timestamp===thiss.timestamp) {
-        return;//do nothing when the current data size is the same
+        return;//do nothing when the current data date is not recent
       }
       thiss.timestamp = data.timestamp;
       var lastTS = jzGetParam("lastTS"+thiss.username);
