@@ -345,6 +345,56 @@ var chatApplication = new ChatApplication();
       }
     });
 
+    var createToggle = function(id,label,offset,position) {
+      var out = "<div id='"+id+"'class='offset"+offset+"' style='position: relative;left: "+position+"%;'>"+
+                   "<span class='inputContainer' style='width: 60px;'>"+
+                   "<div class='uiSwitchBtn' style='width: 60px;'>"+
+                    "<input type='checkbox' class='iphoneStyle yesno staus-true' checked='checked' name='channelMAIL_CHANNEL'>"+
+                    "<label class='switchBtnLabelOff' style='width: 51px;'>"+
+                       "<span style='margin-right: -41px;'>NO</span>"+
+                    "</label>"+
+                    "<label class='switchBtnLabelOn' style='width: 45px;'>"+
+                       "<span style='margin-left: 0px;'>YES</span>"+
+                    "</label><div class='switchBtnHandle' style='left: 41px;'>"+
+                   "<div class='switchBtnHandleRight'>"+
+                       "<div class='switchBtnHandleCenter'></div>"+
+                   "</div>"+
+                "</div></div>"+
+                "</span>"+
+                "<span class='channel-label'>"+label+"</span>"+
+                "</div>";
+      /*
+            var out = "<div id='"+id+"'class='offset"+offset+"' style='position: relative;left: "+position+"%;'>"+
+                            "<input type='checkbox'>"+
+                            "<span class='channel-label'>"+label+"</span>"+
+                        "</div>";
+      */
+      return out;
+    };
+
+    var createTitle = function(label,size,offset,position) {
+      var out = "<h"+size+" style='position: relative; left:"+position+"%;' class='offset"+offset+"'>"+label+"</h"+size+">";
+      return out;
+    };
+
+    $("#configButton").on("click", function() {
+      chatApplication.setConfigMode(true);
+      jqchat("#chats").html( createTitle('Notifications',2,1)+
+                                createToggle('id1','Mention Notifications',2,-6)+
+                                createToggle('id2','Do Not Distrub Notifications',2,-6)+
+                               createTitle('Notify Me By',3,2,-6)+
+                                    createToggle('id3','Web Notifications',3,-12)+
+                                    createToggle('id4','On-Site',3,-12)+
+                                    createToggle('id5','Playing a Sound',3,-12));
+
+      jqchat("#room-detail .room-detail-fullname").html("Preferences");
+    });
+
+
+    $( document ).on( "click", "div.uiSwitchBtn", function() {
+      console.log("checkbox triggered");
+     });
+
     $(".meeting-close-panel").on("click", function() {
       hideMeetingPanel();
     });
@@ -1191,6 +1241,7 @@ var chatApplication = new ChatApplication();
  * @constructor
  */
 function ChatApplication() {
+  this.configMode = false;
   this.isLoaded = false;
   this.isPublic = false;
   this.publicModeEnabled = false;
@@ -1266,6 +1317,14 @@ function ChatApplication() {
 
 
 }
+
+ChatApplication.prototype.setConfigMode = function(mode) {
+  this.configMode = mode;
+};
+
+ChatApplication.prototype.isConfigMode = function() {
+  return this.configMode === true;
+};
 
 /**
  * Create demo user
@@ -2133,6 +2192,7 @@ ChatApplication.prototype.getRoomHtml = function(room, roomPrevUser) {
  */
 ChatApplication.prototype.loadRoom = function() {
   //console.log("TARGET::"+this.targetUser+" ; ISADMIN::"+this.isAdmin);
+  chatApplication.setConfigMode(false);//we're not on the config mode anymore
   this.chatRoom.owner = "";
   if (this.targetUser!==undefined) {
     jqchat(".users-online").removeClass("accordion-active");

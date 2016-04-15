@@ -195,6 +195,9 @@ ChatRoom.prototype.emptyChatZone = function() {
 ChatRoom.prototype.refreshChat = function(forceRefresh, callback) {
   if (this.id === "") return;
 
+  if (chatApplication.isConfigMode()) {
+    return;//do nothing when we're on the config page
+  }
   //var thiss = chatApplication;
   if (this.username !== this.ANONIM_USER) {
     var lastTS = jzGetParam("lastTS"+this.username) || 0;

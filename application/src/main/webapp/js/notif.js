@@ -334,6 +334,7 @@ ChatNotification.prototype.refreshNotif = function() {
         }
         if (total>this.oldNotifTotal && this.profileStatus !== "donotdisturb" && this.profileStatus !== "offline") {
           this.playNotifSound();
+          this.showDesktopNotif(this.chatPage,total);
         }
 
         this.oldNotifTotal = total;
@@ -357,6 +358,33 @@ ChatNotification.prototype.playNotifSound = function() {
   notifSound.play();
 };
 
+
+/**
+ * Show desktop Notif
+ */
+ChatNotification.prototype.showDesktopNotif = function(path, nbrNotif) {
+
+  if(Notification.permission !== "granted")
+    Notification.requestPermission();
+
+  if (!Notification) {
+    alert('Desktop notifications not available in your browser. Please update your browser.');
+    return;
+  }
+
+  if(Notification.permission !== "granted")
+    Notification.requestPermission();
+  else {
+    var notification = new Notification('You have unread chat messages', {
+      icon: 'http://www.iconarchive.com/download/i76391/rafiqul-hassan/blogger/Chat-5.ico',
+      body: 'You have '+nbrNotif+' unread notification(s)' ,
+    });
+
+    notification.onclick = function () {
+      window.open(path);
+    };
+  }
+};
 
 /**
  * Refresh Status
