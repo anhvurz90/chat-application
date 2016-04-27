@@ -101,6 +101,7 @@ ChatRoom.prototype.onShowMessages = function(callback) {
 };
 
 ChatRoom.prototype.sendMessage = function(msg, options, isSystemMessage, callback) {
+  if(msg.trim().length!=0)
   this.sendFullMessage(this.username, this.token, this.targetUser, this.id, msg, options, isSystemMessage, callback);
 };
 
