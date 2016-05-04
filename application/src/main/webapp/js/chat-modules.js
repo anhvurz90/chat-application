@@ -244,7 +244,7 @@ ChatRoom.prototype.refreshChat = function(forceRefresh, callback) {
       res = res.split("\t").join(" ");
       // handle the response data
       var data = snack.parseJSON(res);
-      if(data.timestamp===thiss.timestamp) {
+      if(data.timestamp===thiss.timestamp && forceRefresh == null) {
         return;//do nothing when the current data date is not recent
       }
       thiss.timestamp = data.timestamp;
