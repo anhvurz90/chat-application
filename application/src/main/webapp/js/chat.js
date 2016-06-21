@@ -346,29 +346,10 @@ var chatApplication = new ChatApplication();
     });
 
     var createToggle = function(id,label,offset,position) {
-      var out = "<div id='"+id+"'class='offset"+offset+"' style='position: relative;left: "+position+"%;'>"+
-                   "<span class='inputContainer' style='width: 60px;'>"+
-                   "<div class='uiSwitchBtn' style='width: 60px;'>"+
-                    "<input type='checkbox' class='iphoneStyle yesno staus-true' checked='checked' name='channelMAIL_CHANNEL'>"+
-                    "<label class='switchBtnLabelOff' style='width: 51px;'>"+
-                       "<span style='margin-right: -41px;'>NO</span>"+
-                    "</label>"+
-                    "<label class='switchBtnLabelOn' style='width: 45px;'>"+
-                       "<span style='margin-left: 0px;'>YES</span>"+
-                    "</label><div class='switchBtnHandle' style='left: 41px;'>"+
-                   "<div class='switchBtnHandleRight'>"+
-                       "<div class='switchBtnHandleCenter'></div>"+
-                   "</div>"+
-                "</div></div>"+
-                "</span>"+
-                "<span class='channel-label'>"+label+"</span>"+
-                "</div>";
-      /*
-            var out = "<div id='"+id+"'class='offset"+offset+"' style='position: relative;left: "+position+"%;'>"+
-                            "<input type='checkbox'>"+
+          var out = "<div id='"+id+"'class='offset"+offset+"' style='position: relative;left: "+position+"%;'>"+
+                            "<input type='checkbox' class='switchBtnLabelOn yesno staus-true' checked='checked'/>"+
                             "<span class='channel-label'>"+label+"</span>"+
                         "</div>";
-      */
       return out;
     };
 
@@ -388,6 +369,7 @@ var chatApplication = new ChatApplication();
                                     createToggle('id5','Playing a Sound',3,-12));
 
       jqchat("#room-detail .room-detail-fullname").html("Preferences");
+      jqchat(':checkbox').iphoneStyle();
     });
 
 
