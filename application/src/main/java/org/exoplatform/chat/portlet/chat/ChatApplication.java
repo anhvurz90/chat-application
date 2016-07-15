@@ -114,6 +114,7 @@ public class ChatApplication
   public Response.Content index(SecurityContext securityContext)
   {
     remoteUser_ = securityContext.getRemoteUser();
+    token_ = ServerBootstrap.getToken(remoteUser_);
     boolean isPublic = (remoteUser_==null);
     if (isPublic) remoteUser_ = UserService.ANONIM_USER;
     String chatServerURL = PropertyManager.getProperty(PropertyManager.PROPERTY_CHAT_SERVER_URL);
