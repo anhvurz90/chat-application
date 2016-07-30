@@ -55,7 +55,7 @@ var chatApplication = new ChatApplication();
 
     // Attach weemo call button into chatApplication
     chatApplication.displayVideoCallOnChatApp();
-    chatApplication.initMention();
+//    chatApplication.initMention();
 
     /**
      * Init Global Variables
